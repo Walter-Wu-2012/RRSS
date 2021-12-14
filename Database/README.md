@@ -18,3 +18,16 @@ If you are use "select" sql, you need to call um.cursor.fetchone() or um.cursor.
         data = um.cursor.fetchall()
 
 For more example, please check test.py
+
+
+
+
+remind for create new user in db
+
+CREATE DATABASE testdb;
+
+CREATE USER 'db_user'@'%' IDENTIFIED BY 'StrongPassword!';
+
+GRANT ALL PRIVILEGES ON testdb . * TO 'db_user'@'%';
+
+FLUSH PRIVILEGES;
