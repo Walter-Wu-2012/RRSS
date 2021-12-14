@@ -39,3 +39,13 @@ if __name__ == '__main__':
 #     with UsingMysql(log_time=True) as um:
 #         um.cursor.execute("DELETE FROM users WHERE name=%(param1)s;", {'param1': "aaa"})
 #         print("Deleted",  um.cursor.rowcount, "row(s) of data.")
+
+
+
+# CREATE DATABASE testdb;
+#
+# CREATE USER 'db_user'@'%' IDENTIFIED BY 'StrongPassword!';
+#
+# GRANT ALL PRIVILEGES ON testdb . * TO 'db_user'@'%';
+#
+# FLUSH PRIVILEGES;

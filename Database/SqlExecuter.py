@@ -1,11 +1,17 @@
 from timeit import default_timer
 import pymysql
 
+# host = 'test11.mysql.database.azure.com'
+# port = 3306
+# db = 'quickstartdb'
+# user = 'group2'
+# password = 'group2'
+
 host = 'test11.mysql.database.azure.com'
 port = 3306
-db = 'quickstartdb'
-user = 'wzf'
-password = 'group2!!!'
+db = 'rrss'
+user = 'group2'
+password = 'group2'
 
 
 def get_connection():
