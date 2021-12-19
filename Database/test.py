@@ -5,10 +5,16 @@ from Database.SqlExecuter import UsingMysql
 if __name__ == '__main__':
 
     with UsingMysql(log_time=True) as um:
-        um.cursor.execute("select count(id) as total from inventory")
-        data = um.cursor.fetchone()
+        # um.cursor.execute("select count(id) as total from inventory")
+        # data = um.cursor.fetchone()
+        cursor = um.cursor
+        cursor.execute("DROP TABLE IF EXISTS EMPLOYEE")
+        sq1 = """CREATE TABLE EMPLOYEE(NAME CHAR(20)NOT NULL,AGE INT)"""
+        cursor.execute(sq1)
+        um.close()
 
-    print("-- count: %d " % data['total'])
+
+    # print("-- count: %d " % data['total'])
 
 # # Create Table
 #     with UsingMysql(log_time=True) as um:
