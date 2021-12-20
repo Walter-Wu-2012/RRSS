@@ -4,7 +4,7 @@ dataset format:
 
 [title, description, importancy, difficulty, comment, time(week), time(hour), time(last period),Mood Index(Stress), Mood Index(Happiness), Mood Index(Energy), Mood Index(Focus), Mood Index(Worries)]
 
-[str, str, int(1-5), int(1-5), int(1-6), int, float(0-24), float, float(-1~1), float(-1~1), float(-1~1), float(-1~1), float(-1~1)]
+[str, str, int(1-5), int(1-5), int(1-6), int, float(0 - 24), float, float(-1 ~ 1), float(-1 ~ 1), float(-1 ~ 1), float(-1 ~ 1), float(-1 ~ 1)]
 
 comment = [1:life, 2:study, 3:work, 4: entertainment, 5:special, 6:other]
 
