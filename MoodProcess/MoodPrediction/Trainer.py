@@ -260,8 +260,9 @@ if __name__ == '__main__':
 
     model.saveModel()
 
+    model.loadModel()
 
-    # # model.loadModel()
+
     #
     # # test_loss = 0
     # # accuracy = 0
