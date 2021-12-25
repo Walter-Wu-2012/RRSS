@@ -74,11 +74,12 @@ class ScheduleIndex(nn.Module):
         return out
 
     def saveModel(self):
-        name = "save.model"
+        name = "Schedule.model"
         torch.save(self.state_dict(), name)
-        print('save')
+        print('save schedule net')
 
     def loadModel(self):
-        name = "save.model"
+        name = "Schedule.model"
         state_dict = torch.load(name, map_location=self.device)
         self.load_state_dict(state_dict, strict=False)
+        print('load schedule net')

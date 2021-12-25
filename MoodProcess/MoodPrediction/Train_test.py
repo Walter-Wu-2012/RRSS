@@ -7,6 +7,7 @@ import torch.nn as nn
 import torch.utils.data
 import torch.optim as optim
 
+from MoodProcess.MoodPrediction.Model import Model
 from MoodProcess.MoodPrediction.ScheduleIndex import ScheduleIndex
 
 
@@ -130,7 +131,6 @@ def train(model, trainloader, test_loader, criterion, optimizer, epochs=10):
 
         for sentences, vector, time, labels in trainloader:
 
-            print(labels.shape)
             sentences, vector, time, labels = sentences.to(device), vector.to(device), time.to(device), labels.to(device)
 
             # 1) erase previous gradients (if they exist)
@@ -139,10 +139,14 @@ def train(model, trainloader, test_loader, criterion, optimizer, epochs=10):
             # 2) make a prediction
             pred = model.forward(sentences, vector, time)
 
+
             # 3) calculate how much we missed
+            # print(pred.__sizeof__())
+
             loss = criterion(pred, labels)
 
-            # 4) figure out which weights caused us to miss
+            # 4)
+            # out which weights caused us to miss
             loss.backward()
 
             # 5) change those weights
@@ -243,7 +247,7 @@ if __name__ == '__main__':
     # print ('Embedding layer is ', embedding)
     # print ('Embedding layer weights ', embedding.weight.shape)
 
-    model = ScheduleIndex(embedding, embedding_dim, hidden_dim, vocab_size, output_size, batch_size)
+    model = Model(embedding, embedding_dim, hidden_dim, vocab_size, output_size, batch_size)
     # criterion = nn.CrossEntropyLoss()
     criterion = nn.MSELoss()
     optimizer = optim.Adam(model.parameters(), lr=0.002)
@@ -262,31 +266,3 @@ if __name__ == '__main__':
     model.saveModel()
 
     model.loadModel()
-
-
-    #
-    # # test_loss = 0
-    # # accuracy = 0
-    # # model.eval()
-    # # with torch.no_grad():
-    # #     for sentences, labels in test_loader:
-    # #         sentences, labels = sentences.to(device), labels.to(device)
-    # #         ps = model(sentences)
-    # #         test_loss += criterion(ps, labels).item()
-    # #
-    # #         # Accuracy
-    # #         top_p, top_class = ps.topk(1, dim=1)
-    # #         equals = top_class == labels.view(*top_class.shape)
-    # #         accuracy += torch.mean(equals.type(torch.FloatTensor))
-    # # model.train()
-    # # print("Test Loss: {:.3f}.. ".format(test_loss / len(test_loader)),
-    # #       "Test Accuracy: {:.3f}".format(accuracy / len(test_loader)))
-    # # running_loss = 0
-    # #
-    # # print("------------------------------------")
-    # # predict("I hate you")
-    # # predict("I want a pizza")
-    # # predict("Lets see the game")
-    # # predict("I love you Lisa")
-    # # predict("This is the best day of my life")
-    # # print("\n------------------------------------")
