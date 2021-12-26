@@ -1,17 +1,18 @@
 from Database.SqlExecuter import UsingMysql
+def greet_me(**kwargs):
+    for key, value in kwargs.items():
+        print("{0} == {1}".format(key, value))
 
-
-
-if __name__ == '__main__':
-
-    with UsingMysql(log_time=True) as um:
-        # um.cursor.execute("select count(id) as total from inventory")
-        # data = um.cursor.fetchone()
-        cursor = um.cursor
-        cursor.execute("DROP TABLE IF EXISTS EMPLOYEE")
-        sq1 = """CREATE TABLE EMPLOYEE(NAME CHAR(20)NOT NULL,AGE INT)"""
-        cursor.execute(sq1)
-        um.close()
+greet_me(name="yasoob")
+    # with UsingMysql(log_time=True) as um:
+    #     um.cursor.execute("select * from user_info")
+    #     data = um.cursor.fetchone()
+    #     print(data)
+        # cursor = um.cursor
+        # cursor.execute("DROP TABLE IF EXISTS EMPLOYEE")
+        # sq1 = """CREATE TABLE EMPLOYEE(NAME CHAR(20)NOT NULL,AGE INT)"""
+        # cursor.execute(sq1)
+        # um.close()
 
 
     # print("-- count: %d " % data['total'])

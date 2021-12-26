@@ -13,7 +13,6 @@ db = 'rrss'
 user = 'group2'
 password = 'group2'
 
-
 def get_connection():
     conn = pymysql.connect(host=host, port=port, db=db, user=user, password=password, charset='utf8')
     return conn

@@ -1,33 +1,43 @@
 # Database connector
+##get data from table
+###user table
+    "using username or user_ID to find data"
+*for example:*
 
-Call the following function and change the <sql> with the sql you want to execute.
+user1 = user(user_ID = 5)
 
-Call "um.cursor.rowcount" to know how many rows have changed by you sql.
+print(user1.username)
+###user_info table
+    "using time and user_ID to find data"
+*for example:*
 
-    with UsingMysql(log_time=True) as um:
-        um.cursor.execute("<sql>")
-        um.cursor.rowcount
+show_table("user_info")
 
-If you are use "select" sql, you need to call um.cursor.fetchone() or um.cursor.fetchall() to obtain the data into your variable
+user1 = User_info(time="202112262107", user_ID=6)
 
-"um.cursor.fetchone()" for getting one row.
-"um.cursor.fetchall()" for getting all rows.
+###schedule table
+    "using title and user_ID to find data"
+schedule1 = Schedule(title="shopping", user_ID=6)
+print(schedule1.Time)
+###schedule table
+    "using time and user_ID to find data"
+mood_index = Mood_index(time="20210909", user_ID=6)
+print(mood_index.Time)
+###Prediction table
+    "using time and user_ID to find data"
+prediction = Prediction(time="20210909", user_ID=6)
+print(prediction.Time)
+###recommend_range table
+    "using time and user_ID to find data"
+recommend_range = Recommend_range(time="202112262107", user_ID=6)
+print(recommend_range.Desc1)
+##show table
+we can use the function show_table to check the table we want
+##delete data from table
+we can use the function del_table to delete the data we want
+##add data from table
+we can use the function add_table to add the data we want
 
-    with UsingMysql(log_time=True) as um:
-        um.cursor.execute("select count(id) as total from inventory")
-        data = um.cursor.fetchall()
-
-For more example, please check test.py
 
 
 
-
-remind for create new user in db
-
-CREATE DATABASE testdb;
-
-CREATE USER 'db_user'@'%' IDENTIFIED BY 'StrongPassword!';
-
-GRANT ALL PRIVILEGES ON testdb . * TO 'db_user'@'%';
-
-FLUSH PRIVILEGES;
