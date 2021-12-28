@@ -335,7 +335,6 @@ def delete_event(i):
     c.execute("DELETE from events WHERE oid=" + str(i))
     conn.commit()
     conn.close()
-    root.destroy()
     try:
         top
         top.destroy()
