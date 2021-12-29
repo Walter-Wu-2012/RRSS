@@ -315,7 +315,12 @@ def update():
 
     conn.commit()
     conn.close()
-    top2.destroy()
+
+    try:
+        top2
+        top2.destroy()
+    except NameError:
+        root.destroy()
     root.destroy()
 
 
@@ -330,9 +335,12 @@ def delete_event(i):
     c.execute("DELETE from events WHERE oid=" + str(i))
     conn.commit()
     conn.close()
-    top.destroy()
+    try:
+        top
+        top.destroy()
+    except NameError:
+        root.destroy()
     root.destroy()
-
 
 
 def popup(text1, text2):
