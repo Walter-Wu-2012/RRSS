@@ -8,6 +8,7 @@ class user:
                 sql = "select * from User WHERE user_ID = " + str(user_ID)
                 um.cursor.execute(sql)
                 data = um.cursor.fetchone()
+                print(data)
                 self.user_ID = user_ID
                 self.username = data["username"]
                 self.Pwd = data["Pwd"]
@@ -16,7 +17,6 @@ class user:
                 self.Gender = data["Gender"]
             if username:
                 sql = "select * from User WHERE username = '" + str(username) +"'"
-                print(sql)
                 um.cursor.execute(sql)
                 data = um.cursor.fetchone()
                 self.user_ID = data["user_ID"]
@@ -45,9 +45,9 @@ class User_info:
 
 class Schedule:
     "using title to find data"
-    def __init__(self, title=None, user_ID=None):
+    def __init__(self, time=None, user_ID=None):
         with UsingMysql(log_time=True) as um:
-            sql = "select * from Schedule WHERE User_ID = " + str(user_ID) + " AND Title = '" + str(title) +"'"
+            sql = "select * from Schedule WHERE User_ID = " + str(user_ID) + " AND Time = '" + str(time) +"'"
             um.cursor.execute(sql)
             data = um.cursor.fetchone()
             self.ID = data["ID"]
@@ -96,9 +96,9 @@ class Prediction:
 
 class Recommend_range:
     "using time and user_ID to find data"
-    def __init__(self, time=None, user_ID=None):
+    def __init__(self, type=None, user_ID=None):
         with UsingMysql(log_time=True) as um:
-            sql = "select * from Recommend_range WHERE User_ID = " + str(user_ID) + " AND Time = '" + str(time) +"'"
+            sql = "select * from Recommend_range WHERE User_ID = " + str(user_ID) + " AND Type = '" + str(type) +"'"
             um.cursor.execute(sql)
             data = um.cursor.fetchone()
             self.ID = data["ID"]
@@ -158,9 +158,72 @@ def del_info(table_name,**kwargs):
     with UsingMysql(log_time=True) as um:
         um.cursor.execute(sql)
 
+def get_table(table_name,**kwargs):
+    content = []
+    if table_name == "Recommend_range":
+        with UsingMysql(log_time=True) as um:
+            sql = "select Type from Recommend_range WHERE User_ID = " + str(kwargs["user_ID"]) + " AND Type = '" + str(kwargs["type"]) + "'"
+            um.cursor.execute(sql)
+            data = um.cursor.fetchone()
+            while (data):
+                recommend1 = Recommend_range(data["Type"], user_ID=int(kwargs["user_ID"]))
+                content.append(recommend1)
+                data = um.cursor.fetchone()
+
+    else:
+        with UsingMysql(log_time=True) as um:
+            sql = "select Time FROM " + str(table_name) +" where Time between  '" + str(kwargs["time1"]) + "'  and  '" + str(kwargs["time2"]) + "'"
+            # sql = "select Time FROM schedule where Time between  '2021-12-21 00:00:00'  and '2021-12-30 00:00:00'"
+            um.cursor.execute(sql)
+            data = um.cursor.fetchone()
+            if table_name == "schedule":
+                while (data):
+                    schedule1 = Schedule(data["Time"],user_ID = int(kwargs["user_ID"]))
+                    content.append(schedule1)
+                    data = um.cursor.fetchone()
+            elif table_name == "mood_index":
+                while (data):
+                    mood1 = Mood_index(data["Time"],user_ID = int(kwargs["user_ID"]))
+                    content.append(mood1)
+                    data = um.cursor.fetchone()
+            elif table_name == "prediction":
+                while (data):
+                    prediction1 = Prediction(data["Time"],user_ID = int(kwargs["user_ID"]))
+                    content.append(prediction1)
+                    data = um.cursor.fetchone()
+            elif table_name == "user_info":
+                while (data):
+                    user1 = User_info(data["Time"],user_ID = int(kwargs["user_ID"]))
+                    content.append(user1)
+                    data = um.cursor.fetchone()
+
+            elif table_name == "history_log":
+                while (data):
+                    history1 = Schedule(data["Time"],user_ID = int(kwargs["user_ID"]))
+                    content.append(history1)
+                    data = um.cursor.fetchone()
+
+            return(content)
+
+
+
+
 
 if __name__ == '__main__':
     # show_table("user_info")
-    # del_info('user',username="Lu",user_ID = 6)
-    # add_info("user",username="Lu",user_ID = 6, Pwd = "123456")
-    show_table("schedule")
+    # del_info('user',user_ID = 5)
+    # add_info("schedule",username="Lu",user_ID = 8, Pwd = "123456")
+    # user1 = user(user_ID=8,username="Lu")
+    # print(user1.Pwd)
+    # add_info("schedule",User_ID = 6, ID = 1, Time = "2021-12-22 17:30:00", Title = "study")
+    # schedule1 = Schedule(time="2021-12-22 17:30:00",user_ID=6)
+    # print(schedule1.ID)
+    # add_info("mood_index",User_ID = 6, Time = "2021-12-31 18:30:00")
+    # schedule = get_table("schedule",time1 = "2021-12-21 00:00:00",time2 = "2021-12-30 00:00:00", user_ID = 6)
+    # print(schedule)
+    # for sch in schedule:
+    #     print(sch.Time)
+    add_info("user_info",Blood_pressure=" ",Heartrate = " ", Humidity = " ",Location ="  ", Temperature = " ", Time = "2021-12-30 00:00:00", User_ID=1 ,Weather= " ")
+
+    show_table("user_info")
+
