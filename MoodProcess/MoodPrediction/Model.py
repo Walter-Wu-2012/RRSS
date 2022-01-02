@@ -10,7 +10,7 @@ class Model(nn.Module):
     def __init__(self, embedding, embedding_dim, hidden_dim, vocab_size, output_dim, batch_size):
         super(Model, self).__init__()
         self.schedule_index = ScheduleIndex(embedding, embedding_dim, hidden_dim, vocab_size, output_dim, batch_size)
-        self.schedule_index.loadModel()
+        # self.schedule_index.loadModel()
 
         self.mood_prediction_net = MoodPredictionNet(5, 5)
 

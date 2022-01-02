@@ -2,13 +2,14 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+
 class MoodPredictionNet(nn.Module):
     def __init__(self, n_input, n_output):
         super(MoodPredictionNet, self).__init__()
         self.predict = nn.Linear(n_input, n_output, bias=False)
         self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-    def forward(self, v_detection, v_stimu, dt):
+    def forward(self, x):
         out = self.predict(x)
         return out
 
