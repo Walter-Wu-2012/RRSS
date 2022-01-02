@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -11,7 +13,7 @@ from MoodProcess.MoodPrediction.ScheduleIndex import ScheduleIndex
 
 
 def read_glove_vecs(glove_file):
-    with open(glove_file, 'r') as f:
+    with open(glove_file, 'r',encoding='utf-8') as f:
         words = set()
         word_to_vec_map = {}
         for line in f:
@@ -39,21 +41,32 @@ def read_csv(filename):
     phrase = []
     vector = []
     time = []
+    timestamp = []
     gt = []
+    feedback = []
 
     with open(filename) as csvDataFile:
         csvReader = csv.reader(csvDataFile)
-
+        i = 0
         for row in csvReader:
             phrase.append(row[0]+" "+row[1])
             vector.append([float(row[2]),float(row[3]),int(row[4])])
-            time.append([int(row[5]), float(row[6]), float(row[7])])
-            gt.append([float(row[8]), float(row[9]), float(row[10]), float(row[11]), float(row[12])])
+            t = datetime.strptime(row[5], '%Y/%m/%d %H:%M')
+            timestamp.append(t.timestamp())
+            # week.append(t.weekday())
+            # hour.append(t.hour + t.minute / 60)
+            # period.append(float(row[6]))
+            time.append([int(t.weekday()),float((t.hour + t.minute / 60)),float(row[6])])
+            gt.append([float(row[7]), float(row[8]), float(row[9]), float(row[10]), float(row[11])])
+            feedback.append(float(row[12]))
 
     phrase = np.asarray(phrase)
     vector = np.asarray(vector)
     time = np.asarray(time)
-    X = {'phrase':phrase, 'vector':vector, 'time':time}
+    timestamp = np.asarray(timestamp)
+    # period = np.asarray(period)
+    feedback = np.asarray(feedback)
+    X = {'phrase':phrase, 'vector':vector, 'time':time, 'timestamp':timestamp, 'feedback':feedback}
     Y = np.asarray(gt)
 
     return X, Y
@@ -128,16 +141,16 @@ def train(model, trainloader, test_loader, criterion, optimizer, epochs=10):
         model.train()
 
 
-        for sentences, vector, time, labels in trainloader:
+        for sentences, vector, time, timestamp, feedback, labels in trainloader:
 
-            print(labels.shape)
-            sentences, vector, time, labels = sentences.to(device), vector.to(device), time.to(device), labels.to(device)
+            # print(labels.shape)
+            sentences, vector, time, timestamp, feedback, labels = sentences.to(device), vector.to(device), time.to(time), timestamp.to(device), feedback.to(device), labels.to(device)
 
             # 1) erase previous gradients (if they exist)
             optimizer.zero_grad()
 
             # 2) make a prediction
-            pred = model.forward(sentences, vector, time)
+            pred, timesta = model.forward(sentences, vector, time, timestamp, feedback)
 
             # 3) calculate how much we missed
             loss = criterion(pred, labels)
@@ -223,8 +236,8 @@ def train(model, trainloader, test_loader, criterion, optimizer, epochs=10):
 
 if __name__ == '__main__':
 
-    X_train, Y_train = read_csv('datasets/train.csv')
-    X_test, Y_test = read_csv('datasets/test.csv')
+    X_train, Y_train = read_csv('datasets/train2.csv')
+    X_test, Y_test = read_csv('datasets/test2.csv')
 
     word_to_index, index_to_word, word_to_vec_map = read_glove_vecs('datasets/glove.6B.50d.txt')
 
@@ -249,12 +262,12 @@ if __name__ == '__main__':
     optimizer = optim.Adam(model.parameters(), lr=0.002)
     epochs = 100
 
-    train_dataset = torch.utils.data.TensorDataset(torch.tensor(X_train_indices).type(torch.LongTensor),torch.tensor(X_train['vector']), torch.tensor(X_train['time']),
+    train_dataset = torch.utils.data.TensorDataset(torch.tensor(X_train_indices).type(torch.LongTensor),torch.tensor(X_train['vector']), torch.tensor(X_train['time']),torch.tensor(X_train['timestamp']), torch.tensor(X_train['feedback']),
                                                    torch.tensor(Y_train).type(torch.float32))
     train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size)
 
-    test_dataset = torch.utils.data.TensorDataset(torch.tensor(X_test_indices).type(torch.LongTensor),torch.tensor(X_test['vector']), torch.tensor(X_test['time']),
-                                                  torch.tensor(Y_test).type(torch.float32))
+    test_dataset = torch.utils.data.TensorDataset(torch.tensor(X_train_indices).type(torch.LongTensor),torch.tensor(X_train['vector']), torch.tensor(X_train['time']), torch.tensor(X_train['timestamp']), torch.tensor(X_train['feedback']),
+                                                   torch.tensor(Y_train).type(torch.float32))
     test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size)
 
     train(model, train_loader, test_loader, criterion, optimizer, epochs)

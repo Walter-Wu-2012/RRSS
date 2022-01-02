@@ -8,8 +8,9 @@ class MoodPredictionNet(nn.Module):
         self.predict = nn.Linear(n_input, n_output, bias=False)
         self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-    def forward(self, v_detection, v_stimu, dt):
-        out = self.predict(x)
+    def forward(self, stimu, timestamp):
+        vector = torch.cat([stimu, timestamp], dim=1)
+        out = self.predict(vector)
         return out
 
     def saveModel(self):

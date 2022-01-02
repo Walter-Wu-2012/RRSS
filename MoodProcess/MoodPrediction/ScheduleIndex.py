@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -30,7 +32,7 @@ class ScheduleIndex(nn.Module):
         self.fc_vector2 = nn.Linear(16, 32)
         self.fc_vector3 = nn.Linear(32, 4)
 
-        self.fc_vector = nn.Linear(4, 16)
+        self.fc_vector = nn.Linear(5, 16)
         self.fc_vector2 = nn.Linear(16, 32)
         self.fc_vector3 = nn.Linear(32, 4)
 
@@ -38,11 +40,12 @@ class ScheduleIndex(nn.Module):
 
         self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-    def forward(self, sentence, vector, time):
+    def forward(self, sentence, vector, time, timestamp, feedback):
 
         #data process
         vector = torch.tensor(vector,dtype=torch.float32).to(self.device)
         time = torch.tensor(time,dtype=torch.float32).to(self.device)
+        feedback = torch.tensor(feedback,dtype=torch.float32).to(self.device).unsqueeze(dim=1)
 
         sentence = sentence.to(self.device)
         embeds = self.word_embeddings(sentence)
@@ -65,13 +68,13 @@ class ScheduleIndex(nn.Module):
 
         #add time and vector(importance, difficulty, comment)
         t = self.fc_time2(self.fc_time(time))
-        vector = torch.cat([vector,t],dim=1)
+        vector = torch.cat([vector,feedback,t],dim=1)
         vector = self.fc_vector3(self.fc_vector2(self.fc_vector(vector)))
         out = torch.cat([fc_out,vector],dim=1)
         out = self.fc_final(out)
         # out = F.softmax(out, dim=1)
         # print ('Output layer output shape', out.shape)
-        return out
+        return out, timestamp
 
     def saveModel(self):
         name = "Schedule.model"
