@@ -152,6 +152,8 @@ def train(model, trainloader, test_loader, criterion, optimizer, epochs=10):
             # 2) make a prediction
             pred, timesta = model.forward(sentences, vector, time, timestamp, feedback)
 
+            print(timesta)
+
             # 3) calculate how much we missed
             loss = criterion(pred, labels)
 
@@ -238,6 +240,7 @@ if __name__ == '__main__':
 
     X_train, Y_train = read_csv('datasets/train2.csv')
     X_test, Y_test = read_csv('datasets/test2.csv')
+
 
     word_to_index, index_to_word, word_to_vec_map = read_glove_vecs('datasets/glove.6B.50d.txt')
 

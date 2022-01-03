@@ -74,7 +74,7 @@ class ScheduleIndex(nn.Module):
         out = self.fc_final(out)
         # out = F.softmax(out, dim=1)
         # print ('Output layer output shape', out.shape)
-        return out, timestamp
+        return out, time, timestamp
 
     def saveModel(self):
         name = "Schedule.model"

@@ -17,7 +17,7 @@ class Model(nn.Module):
         self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     def forward(self, sentence, vector, time, timestamp, feedback):
-        schedule_out, timestamp = self.schedule_index(sentence, vector, time, timestamp, feedback)
+        schedule_out, time, timestamp = self.schedule_index(sentence, vector, time, timestamp, feedback)
         timestamp = torch.tensor(timestamp, dtype=torch.float32).to(self.device).unsqueeze(dim=1)
         # print('schedule_out shape', schedule_out.shape)
         # print('timestamp shape', timestamp.shape)
