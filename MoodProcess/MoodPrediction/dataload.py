@@ -252,6 +252,7 @@ def TrainDataloader(batchsize, filename):
         newindex = torch.cat([newindex, newindex1.unsqueeze(0)],dim=0)
 
     print(oldweek.shape)
+    print(oldindex.shape)
 
     return oldweek, newweek, oldindex, newindex
 
@@ -282,6 +283,7 @@ def TestDataloader(batchsize, filename):
         oldindex = torch.cat([oldindex, oldindex1.unsqueeze(0)],dim=0)
 
     print(oldweek.shape)
+    print(oldindex.shape)
 
     return oldweek, newweek, oldindex
 
