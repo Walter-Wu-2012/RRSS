@@ -57,7 +57,7 @@ class ScheduleIndex(nn.Module):
         lstm_out, h = self.lstm(embeds, (h0, c0))
         # get info from last timestep only
         lstm_out = lstm_out[:, -1, :]
-        # print ('LSTM layer output shape', lstm_out.shape)
+        print ('LSTM layer output shape', lstm_out.shape)
 
         # Dropout
         lstm_out = F.dropout(lstm_out, 0.5)
@@ -73,7 +73,9 @@ class ScheduleIndex(nn.Module):
         out = torch.cat([fc_out,vector],dim=1)
         out = self.fc_final(out)
         # out = F.softmax(out, dim=1)
-        # print ('Output layer output shape', out.shape)
+        print ('Output layer output shape', out.shape)
+        print('time shape', time.shape)
+        print('time shape', timestamp.shape)
         return out, time, timestamp
 
     def saveModel(self):

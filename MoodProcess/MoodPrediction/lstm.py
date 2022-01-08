@@ -8,6 +8,9 @@ class lstm(nn.Module):
     def __init__(self, embedding, embedding_dim, hidden_dim, vocab_size, output_size, batch_size):
         super(lstm, self).__init__()
 
+        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        # self.device = torch.device("cpu")
+
         self.batch_size = batch_size
 
         self.hidden_dim = hidden_dim
@@ -20,17 +23,18 @@ class lstm(nn.Module):
                             hidden_dim,
                             num_layers=2,
                             dropout=0.5,
-                            batch_first=True)
+                            batch_first=True).to(self.device)
 
         # The linear layer that maps from hidden state space to output space
 
-        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
 
     # output stimu:[32, 5], time:[32, 3], timestamp:[32, 1] (batch size: 32)
     def forward(self, sentence):
         #data process
-        # sentence = sentence.to(self.device)
+
         embeds = self.word_embeddings(sentence)
+        embeds = embeds.to(self.device)
 
         # mood from text
         h0 = torch.zeros(2, sentence.size(0), self.hidden_dim).requires_grad_().to(self.device)
