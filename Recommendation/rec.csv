@@ -1,0 +1,14 @@
+user id,Stress,Chaotic,Happiness,Energy,Focus,Activity id,Rating
+5,1,0,-1,0,-1,Hot shower,5
+5,0,1,1,-1,-1,Cold shower,5
+5,1,1,-1,-1,-1,Rest,5
+5,1,1,-1,1,0,Jogging,5
+5,1,-1,0,1,1,Yoga,5
+5,1,-1,-1,1,1,Meditate,5
+5,0,-1,-1,1,1,Read novel,5
+5,-1,1,-1,1,1,Video game,5
+5,1,1,-1,1,-1,Shopping,5
+5,1,1,-1,1,0,Swimming,5
+5,-1,-1,1,1,1,Read book,5
+5,1,1,-1,-1,-1,Calm music,5
+5,1,1,1,1,1,Rock music,5
