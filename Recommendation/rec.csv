@@ -4,11 +4,50 @@ user id,Stress,Chaotic,Happiness,Energy,Focus,Activity id,Rating
 5,1,1,-1,-1,-1,Rest,5
 5,1,1,-1,1,0,Jogging,5
 5,1,-1,0,1,1,Yoga,5
-5,1,-1,-1,1,1,Meditate,5
-5,0,-1,-1,1,1,Read novel,5
+5,1,-1,-1,1,1,Meditate,3
+5,0,-1,-1,1,1,Read novel,3
 5,-1,1,-1,1,1,Video game,5
 5,1,1,-1,1,-1,Shopping,5
 5,1,1,-1,1,0,Swimming,5
-5,-1,-1,1,1,1,Read book,5
+5,-1,-1,1,1,1,Read book,3
 5,1,1,-1,-1,-1,Calm music,5
 5,1,1,1,1,1,Rock music,5
+1,1,1,-1,-1,0,Hot shower,5
+1,1,1,-1,0,0,Cold shower,5
+1,1,1,0,-1,-1,Rest,5
+1,1,0,0,1,0,Jogging,5
+1,1,1,0,1,1,Yoga,5
+1,1,1,0,0,-1,Meditate,5
+1,1,0,0,0,1,Read novel,5
+1,1,1,-1,1,1,Video game,5
+1,1,0,-1,1,0,Shopping,5
+1,1,1,-1,1,-1,Swimming,5
+1,1,0,0,0,1,Read book,5
+1,1,1,-1,0,-1,Calm music,5
+1,-1,-1,0,0,1,Rock music,5
+2,1,1,0,-1,0,Hot shower,5
+2,0,0,1,-1,-1,Cold shower,5
+2,1,1,-1,-1,-1,Rest,5
+2,1,1,-1,1,1,Jogging,5
+2,1,1,0,1,1,Yoga,5
+2,1,1,0,-1,1,Meditate,5
+2,1,1,-1,1,1,Read novel,5
+2,1,1,-1,0,1,Video game,5
+2,1,1,-1,1,1,Shopping,5
+2,1,1,-1,1,1,Swimming,5
+2,1,1,-1,0,-1,Read book,5
+2,1,1,0,0,0,Calm music,5
+2,1,1,-1,1,0,Rock music,5
+4,1,1,-1,-1,-1,Hot shower,5
+4,1,1,-1,-1,-1,Cold shower,5
+4,1,0,-1,-1,-1,Rest,5
+4,0,0,0,1,-1,Jogging,5
+4,0,0,0,1,1,Yoga,5
+4,1,1,0,0,1,Meditate,5
+4,-1,0,-1,1,1,Read novel,5
+4,0,0,-1,0,1,Video game,5
+4,1,0,-1,1,0,Shopping,5
+4,0,0,0,1,0,Swimming,5
+4,0,0,0,1,1,Read book,5
+4,1,0,0,0,0,Calm music,5
+4,0,0,-1,0,0,Rock music,5
