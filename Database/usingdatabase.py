@@ -211,19 +211,19 @@ def get_table(table_name,**kwargs):
 
 if __name__ == '__main__':
     # show_table("user_info")
-    # del_info('user',user_ID = 5)
+    # del_info('mood_index',user_ID = 6)
     # add_info("schedule",username="Lu",user_ID = 8, Pwd = "123456")
     # user1 = user(user_ID=8,username="Lu")
     # print(user1.Pwd)
     # add_info("schedule",User_ID = 6, ID = 1, Time = "2021-12-22 17:30:00", Title = "study")
     # schedule1 = Schedule(time="2021-12-22 17:30:00",user_ID=6)
     # print(schedule1.ID)
-    # add_info("mood_index",User_ID = 6, Time = "2021-12-31 18:30:00")
+    add_info("mood_index",Stress=1,Chaotic=1,Happiness=1,Energy=1,Focus=1,User_ID = 6, Time = "2021-12-31 21:30:00")
     # schedule = get_table("schedule",time1 = "2021-12-21 00:00:00",time2 = "2021-12-30 00:00:00", user_ID = 6)
     # print(schedule)
     # for sch in schedule:
     #     print(sch.Time)
-    add_info("user_info",Blood_pressure=" ",Heartrate = " ", Humidity = " ",Location ="  ", Temperature = " ", Time = "2021-12-30 00:00:00", User_ID=1 ,Weather= " ")
+    # add_info("user_info",Blood_pressure=" ",Heartrate = " ", Humidity = " ",Location ="  ", Temperature = " ", Time = "2021-12-30 00:00:00", User_ID=1 ,Weather= " ")
 
-    show_table("user_info")
+    show_table("mood_index")
 
