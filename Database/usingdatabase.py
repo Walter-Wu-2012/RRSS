@@ -218,7 +218,7 @@ if __name__ == '__main__':
     # add_info("schedule",User_ID = 6, ID = 1, Time = "2021-12-22 17:30:00", Title = "study")
     # schedule1 = Schedule(time="2021-12-22 17:30:00",user_ID=6)
     # print(schedule1.ID)
-    add_info("mood_index",Stress=1,Chaotic=1,Happiness=1,Energy=1,Focus=1,User_ID = 6, Time = "2021-12-31 21:30:00")
+    # add_info("mood_index",Stress=1,Chaotic=1,Happiness=1,Energy=1,Focus=1,User_ID = 6, Time = "2021-12-31 21:30:00")
     # schedule = get_table("schedule",time1 = "2021-12-21 00:00:00",time2 = "2021-12-30 00:00:00", user_ID = 6)
     # print(schedule)
     # for sch in schedule:
