@@ -77,6 +77,39 @@ class Mood_index:
             self.Energy = data["Energy"]
             self.Focus = data["Focus"]
             self.User_ID = data["User_ID"]
+            self.Title = data["Title"]
+            self.Description = data["Description"]
+            self.Importance = data["Importance"]
+            self.Difficulty = data["Difficulty"]
+            self.Comment = data["Comment"]
+            self.Lasting_period = data["Lasting_period"]
+            self.feedback = data["feedback"]
+
+
+
+
+class Mood_index_test:
+    "using time and user_ID to find data"
+    def __init__(self, time=None, user_ID=None):
+        with UsingMysql(log_time=True) as um:
+            sql = "select * from Mood_index WHERE User_ID = " + str(user_ID) + " AND Time = '" + str(time) +"'"
+            um.cursor.execute(sql)
+            data = um.cursor.fetchone()
+            self.ID = data["ID"]
+            self.Time = data["Time"]
+            self.Stress = data["Stress"]
+            self.Chaotic = data["Chaotic"]
+            self.Happiness = data["Happiness"]
+            self.Energy = data["Energy"]
+            self.Focus = data["Focus"]
+            self.User_ID = data["User_ID"]
+            self.Title = data["Title"]
+            self.Description = data["Description"]
+            self.Importance = data["Importance"]
+            self.Difficulty = data["Difficulty"]
+            self.Comment = data["Comment"]
+            self.Lasting_period = data["Lasting_period"]
+            self.feedback = data["feedback"]
 
 class Prediction:
     "using time and user_ID to find data"
@@ -211,19 +244,19 @@ def get_table(table_name,**kwargs):
 
 if __name__ == '__main__':
     # show_table("user_info")
-    # del_info('mood_index',user_ID = 6)
+    # del_info('user',user_ID = 5)
     # add_info("schedule",username="Lu",user_ID = 8, Pwd = "123456")
     # user1 = user(user_ID=8,username="Lu")
     # print(user1.Pwd)
     # add_info("schedule",User_ID = 6, ID = 1, Time = "2021-12-22 17:30:00", Title = "study")
     # schedule1 = Schedule(time="2021-12-22 17:30:00",user_ID=6)
     # print(schedule1.ID)
-    # add_info("mood_index",Stress=1,Chaotic=1,Happiness=1,Energy=1,Focus=1,User_ID = 6, Time = "2021-12-31 21:30:00")
+    # add_info("mood_index",User_ID = 6, Time = "2021-12-31 18:30:00")
     # schedule = get_table("schedule",time1 = "2021-12-21 00:00:00",time2 = "2021-12-30 00:00:00", user_ID = 6)
     # print(schedule)
     # for sch in schedule:
     #     print(sch.Time)
     # add_info("user_info",Blood_pressure=" ",Heartrate = " ", Humidity = " ",Location ="  ", Temperature = " ", Time = "2021-12-30 00:00:00", User_ID=1 ,Weather= " ")
 
-    show_table("mood_index")
+    show_table("mood_index_test")
 
