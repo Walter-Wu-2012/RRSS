@@ -214,7 +214,7 @@ def get_table(table_name,**kwargs):
                     schedule1 = Schedule(data["Time"],user_ID = int(kwargs["user_ID"]))
                     content.append(schedule1)
                     data = um.cursor.fetchone()
-            elif table_name == "mood_index_test":
+            elif table_name == "mood_index":
                 while (data):
                     mood1 = Mood_index(data["Time"],user_ID = int(kwargs["user_ID"]))
                     content.append(mood1)

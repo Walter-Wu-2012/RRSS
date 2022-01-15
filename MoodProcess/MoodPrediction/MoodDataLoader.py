@@ -67,11 +67,11 @@ class MoodDataLoader(dataset.Dataset):
 
     def getTotalList(self, table, user):
         with UsingMysql(log_time=True) as um:
-            sql = "select Time from "+table+" where User_ID="+int(user)+" order by id DESC limit 1"
+            sql = "select Time from "+table+" where User_ID="+int(user)+" order by Time DESC limit 1"
             um.cursor.execute(sql)
             endtime = um.cursor.fetchone()['Time']
 
-            sql = "select Time from " + table + " where User_ID=" + user + " order by id ASC limit 1"
+            sql = "select Time from " + table + " where User_ID=" + user + " order by Time ASC limit 1"
             um.cursor.execute(sql)
             starttime = um.cursor.fetchone()['Time']
 
