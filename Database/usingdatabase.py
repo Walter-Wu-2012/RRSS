@@ -214,7 +214,7 @@ def get_table(table_name,**kwargs):
                     schedule1 = Schedule(data["Time"],user_ID = int(kwargs["user_ID"]))
                     content.append(schedule1)
                     data = um.cursor.fetchone()
-            elif table_name == "mood_index":
+            elif table_name == "mood_index_test":
                 while (data):
                     mood1 = Mood_index(data["Time"],user_ID = int(kwargs["user_ID"]))
                     content.append(mood1)
@@ -244,7 +244,7 @@ def get_table(table_name,**kwargs):
 
 if __name__ == '__main__':
     # show_table("user_info")
-    # del_info('user',user_ID = 5)
+    # del_info('mood_index',user_ID = 6)
     # add_info("schedule",username="Lu",user_ID = 8, Pwd = "123456")
     # user1 = user(user_ID=8,username="Lu")
     # print(user1.Pwd)
@@ -258,5 +258,5 @@ if __name__ == '__main__':
     #     print(sch.Time)
     # add_info("user_info",Blood_pressure=" ",Heartrate = " ", Humidity = " ",Location ="  ", Temperature = " ", Time = "2021-12-30 00:00:00", User_ID=1 ,Weather= " ")
 
-    show_table("mood_index_test")
+    show_table("mood_index")
 
