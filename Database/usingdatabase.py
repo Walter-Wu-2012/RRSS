@@ -127,33 +127,49 @@ class Prediction:
             self.Focus = data["Focus"]
             self.User_ID = data["User_ID"]
 
+# class Recommend_range:
+#     "using time and user_ID to find data"
+#     def __init__(self, type=None, user_ID=None):
+#         with UsingMysql(log_time=True) as um:
+#             sql = "select * from Recommend_range WHERE User_ID = " + str(user_ID) + " AND Type = '" + str(type) +"'"
+#             um.cursor.execute(sql)
+#             data = um.cursor.fetchone()
+#             self.ID = data["ID"]
+#             self.Type = data["Type"]
+#             self.Desc1 = data["Desc1"]
+#             self.Duration = data["Duration"]
+#             self.Commend = data["Commend"]
+#             self.Time = data["Time"]
+#             self.User_ID = data["User_ID"]
+
 class Recommend_range:
     "using time and user_ID to find data"
-    def __init__(self, type=None, user_ID=None):
-        with UsingMysql(log_time=True) as um:
-            sql = "select * from Recommend_range WHERE User_ID = " + str(user_ID) + " AND Type = '" + str(type) +"'"
-            um.cursor.execute(sql)
-            data = um.cursor.fetchone()
-            self.ID = data["ID"]
-            self.Type = data["Type"]
-            self.Desc1 = data["Desc1"]
-            self.Duration = data["Duration"]
-            self.Commend = data["Commend"]
-            self.Time = data["Time"]
-            self.User_ID = data["User_ID"]
+    def __init__(self, ID, Type, Desc1, Duration, Commend, User_ID):
+            self.ID = ID
+            self.Type = Type
+            self.Desc1 = Desc1
+            self.Duration = Duration
+            self.Commend = Commend
+            self.User_ID = User_ID
+
+    def __str__(self):
+        return "ID: {}, Type: {},Desc1: {},Duration: {},Commend: {},User_ID: {}".format(self.ID, self.Type, self.Desc1, self.Duration, self.Commend, self.User_ID)
+
+
 
 def show_table(table_name=None):
     with UsingMysql(log_time=True) as um:
         sql = "select * from " + str(table_name)
         um.cursor.execute(sql)
-        data = um.cursor.fetchone()
-        keys = list(data.keys())
-        table = PrettyTable(keys)
-        while(data):
-            values = list(data.values())
-            table.add_row(values)
-            data = um.cursor.fetchone()
-        print(table)
+        rows = um.cursor.fetchall()
+        if len(rows)!=0:
+            keys = list(rows[0].keys())
+            table = PrettyTable(keys)
+            for data in rows:
+                values = list(data.values())
+                table.add_row(values)
+                # data = um.cursor.fetchone()
+            print(table)
 
 def add_info(table_name,**kwargs):
     sql1 = "INSERT INTO " + str(table_name) + "("
@@ -195,13 +211,14 @@ def get_table(table_name,**kwargs):
     content = []
     if table_name == "Recommend_range":
         with UsingMysql(log_time=True) as um:
-            sql = "select Type from Recommend_range WHERE User_ID = " + str(kwargs["user_ID"]) + " AND Type = '" + str(kwargs["type"]) + "'"
+            sql = "select * from Recommend_range WHERE User_ID = " + str(kwargs["user_ID"]) + " AND Type = '" + str(kwargs["type"]) + "'"
             um.cursor.execute(sql)
-            data = um.cursor.fetchone()
-            while (data):
-                recommend1 = Recommend_range(data["Type"], user_ID=int(kwargs["user_ID"]))
+            rows = um.cursor.fetchall()
+            for data in rows:
+                # print(data)
+                recommend1 = Recommend_range(data["ID"],data["Type"],data["Desc1"],data["Duration"],data["Commend"],data["User_ID"])
                 content.append(recommend1)
-                data = um.cursor.fetchone()
+        return content
 
     else:
         with UsingMysql(log_time=True) as um:
@@ -257,6 +274,12 @@ if __name__ == '__main__':
     # for sch in schedule:
     #     print(sch.Time)
     # add_info("user_info",Blood_pressure=" ",Heartrate = " ", Humidity = " ",Location ="  ", Temperature = " ", Time = "2021-12-30 00:00:00", User_ID=1 ,Weather= " ")
+    add_info("Recommend_range", Type = 1,Desc1 = '1',Duration = 1,Commend = 1,User_ID = 6)
+    # del_info('Recommend_range', user_ID=6)
+    show_table("Recommend_range")
 
-    show_table("mood_index")
+    t = get_table("Recommend_range", user_ID = 6, type='1')
+    print(len(t))
+    for i in range(len(t)):
 
+        print(t[i])
