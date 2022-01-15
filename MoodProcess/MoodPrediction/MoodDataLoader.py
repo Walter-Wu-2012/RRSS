@@ -188,6 +188,7 @@ if __name__ == '__main__':
         # sql = "select * from Mood_index where User_ID=6 order by id ASC limit 1"
         um.cursor.execute(sql)
         starttime = um.cursor.fetchone()['Time']
+        print(starttime.hour)
 
         gap = (endtime - starttime).total_seconds()/3600
 

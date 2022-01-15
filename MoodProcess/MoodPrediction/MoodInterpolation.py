@@ -1,3 +1,4 @@
+import copy
 from datetime import timedelta
 
 import numpy as np
@@ -61,12 +62,13 @@ def InterpolationData(user):
     print(xtrue)
 
 
-    lastsavetime = getLastSaveTime()
+    lastsavetime = getLastSaveTime(user)
+    timecounter = copy.deepcopy(starttime)
     for i in range(len(x)):
         time = starttime+td*i
         if time>lastsavetime:
             if xtrue[i] == 0:
-                schedule = getschedule(time)
+                schedule = getschedule(time, user, timecounter)
                 add_info("mood_index", User_ID=user, Time=time, Title=schedule['Title'],
                          Description=schedule['Description'], Importance=schedule['Importance'], Difficulty=schedule['Difficulty'],
                          Comment=schedule['Comment'], Lasting_period=schedule['Lasting_period'], feedback=schedule['feedback'],
@@ -74,6 +76,7 @@ def InterpolationData(user):
                          Focus=newy[4,i])
 
             else:
+                timecounter = copy.deepcopy(time)
                 row = rows[xtrue[i]]
                 add_info("mood_index", User_ID=row['User_ID'], Time=row['Time'], Title=row['Title'],
                          Description=row['Description'], Importance=row['Importance'], Difficulty=row['Difficulty'],
@@ -82,12 +85,29 @@ def InterpolationData(user):
                          Focus=row['Focus'])
 
 
-def getLastSaveTime():
-    return
+def getLastSaveTime(user):
+    with UsingMysql(log_time=True) as um:
+        sql = "select Time from mood_index_interpolation where User_ID=" + int(user) + " order by Time DESC limit 1"
+        um.cursor.execute(sql)
+        endtime = um.cursor.fetchone()['Time']
 
-def getschedule(time):
-    return
+    return endtime
+
+def getschedule(time, user, timecounter):
+    with UsingMysql(log_time=True) as um:
+        sql = "select * from schedule where User_ID=" + int(user) + " order by Time DESC limit 1"
+        um.cursor.execute(sql)
+        rows = um.cursor.fetchall()
+
+    if len(rows)==0:
+        gap = (time - timecounter).total_seconds()/3600
+        if time.hour>=8 and time.hour<=23:
+            schedule={'Title':'Free time', 'Description':'nothing to do', 'Importance':1, 'Difficulty':1, 'Comment':6, 'Lasting_period':gap, 'feedback':0}
+        else:
+            schedule = {'Title': 'Sleep', 'Description': 'Just for sleeping', 'Importance': 1, 'Difficulty': 1,
+                        'Comment': 1, 'Lasting_period': gap, 'feedback': 0}
+    return schedule
 
 if __name__ == '__main__':
-    InterpolationData('6')
-    # show_table("mood_index")
+    # InterpolationData('6')
+    show_table("mood_index")
