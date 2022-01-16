@@ -14,21 +14,29 @@ class MoodDataLoader(dataset.Dataset):
 
     def __init__(self, table, user):
         super(MoodDataLoader, self).__init__()
-        self.timelist = self.getTotalList(table, user)
+        self.tl = self.getTotalList(table, user)
         self.table = table
         self.user = user
 
     def __getitem__(self, index):
-        time = self.img_info[index]
+        time = self.tl[index+(7*24)]
         starttime = time - timedelta(days=7)+timedelta(seconds=1810)
         endtime = time + timedelta(days=7)+timedelta(seconds=1810)
 
-        data = get_table(self.table, time1= starttime,time2= endtime, user_ID= self.user)
+        print(starttime)
+        print(endtime)
+        # data = get_table(self.table, time1= starttime,time2= endtime, user_ID= self.user)
+        with UsingMysql(log_time=True) as um:
+            sql = "select * from "+self.table+" where User_ID=" + self.user + " and Time between  '" + str(starttime) + "'  and  '" + str(endtime) + "'"
+            # print(sql)
+            um.cursor.execute(sql)
+            data = um.cursor.fetchall()
         schedule = np.zeros([14, 48, 5])
         index = np.zeros([14, 48, 5])
 
         sentenceslist = []
-        for i in range(data):
+        print(len(data))
+        for i in range(len(data)):
             sentenceslist.append(data[i]['Title'] + ' ' + data[i]['Description'])
             j = int(i / 48)
             k = i % 48
@@ -44,12 +52,14 @@ class MoodDataLoader(dataset.Dataset):
             index[j, k, 3] = float(data[i]['Energy'])
             index[j, k, 4] = float(data[i]['Focus'])
 
+        print(schedule.shape)
+
         schedule = torch.from_numpy(schedule)
         index = torch.from_numpy(index)
 
         # print(len(sentences))
-        sentenceslist = self.transSentence(np.array(sentenceslist))
-        sentences = np.zeros([14, 48, sentenceslist.shape[1]])
+        sentenceslist = self.transSentence(np.array(sentenceslist)).cpu()
+        sentences = torch.zeros([14, 48, sentenceslist.shape[1]])
         for i in range(14):
             sentences[i, :, :] = sentenceslist[i * 48:(i + 1) * 48, :]
         # oldweeks, newweeks = self.twoD2threeD(sentences)
@@ -60,14 +70,14 @@ class MoodDataLoader(dataset.Dataset):
 
 
     def __len__(self):
-        return len(self.timelist)
+        return len(self.tl)-(2*7*24)
 
 
 
 
     def getTotalList(self, table, user):
         with UsingMysql(log_time=True) as um:
-            sql = "select Time from "+table+" where User_ID="+int(user)+" order by Time DESC limit 1"
+            sql = "select Time from "+table+" where User_ID="+user+" order by Time DESC limit 1"
             um.cursor.execute(sql)
             endtime = um.cursor.fetchone()['Time']
 
@@ -78,18 +88,18 @@ class MoodDataLoader(dataset.Dataset):
         gap = (endtime - starttime).total_seconds()/3600
 
         if gap<=(2*7*24):
-            return False
+            return []
 
         starttime = starttime + timedelta(days=7)
         endtime = endtime - timedelta(days=7)
 
-        timelist = []
+        tl = []
         # starttime = starttime + timedelta(seconds=1800)
         while(starttime<endtime):
-            timelist.append(starttime)
+            tl.append(starttime)
             starttime = starttime + timedelta(seconds=1800)
 
-        return timelist
+        return tl
 
     def read_glove_vecs(self, glove_file):
 
@@ -175,28 +185,33 @@ class MoodDataLoader(dataset.Dataset):
 
 
 if __name__ == '__main__':
-    with UsingMysql(log_time=True) as um:
-        # sql = "select * from Mood_index order by id DESC limit 1"
-        table = 'Mood_index'
-        user = '6'
-        sql = "select Time from " + table + " where User_ID=" + user + " order by id DESC limit 1"
-        # sql = "select * from Mood_index where User_ID=6 order by id ASC limit 1"
-        um.cursor.execute(sql)
-        endtime = um.cursor.fetchone()['Time']
+    # with UsingMysql(log_time=True) as um:
+    #     # sql = "select * from Mood_index order by id DESC limit 1"
+    #     table = 'Mood_index'
+    #     user = '6'
+    #     sql = "select Time from " + table + " where User_ID=" + user + " order by id DESC limit 1"
+    #     # sql = "select * from Mood_index where User_ID=6 order by id ASC limit 1"
+    #     um.cursor.execute(sql)
+    #     endtime = um.cursor.fetchone()['Time']
+    #
+    #     sql = "select Time from " + table + " where User_ID=" + user + " order by id ASC limit 1"
+    #     # sql = "select * from Mood_index where User_ID=6 order by id ASC limit 1"
+    #     um.cursor.execute(sql)
+    #     starttime = um.cursor.fetchone()['Time']
+    #     print(starttime.hour)
+    #
+    #     gap = (endtime - starttime).total_seconds()/3600
+    #
+    #     print(gap)
+    #
+    #     timelist = []
+    #     while (starttime < endtime):
+    #         timelist.append(starttime)
+    #         starttime = starttime + timedelta(seconds=1800)
+    #
+    #     print(timelist)
 
-        sql = "select Time from " + table + " where User_ID=" + user + " order by id ASC limit 1"
-        # sql = "select * from Mood_index where User_ID=6 order by id ASC limit 1"
-        um.cursor.execute(sql)
-        starttime = um.cursor.fetchone()['Time']
-        print(starttime.hour)
-
-        gap = (endtime - starttime).total_seconds()/3600
-
-        print(gap)
-
-        timelist = []
-        while (starttime < endtime):
-            timelist.append(starttime)
-            starttime = starttime + timedelta(seconds=1800)
-
-        print(timelist)
+    md = MoodDataLoader('mood_index_interpolation', '6')
+    print(md.__len__())
+    schedule, schedule2, index, index2 = md.__getitem__(0)
+    print(schedule.shape)
