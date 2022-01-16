@@ -106,6 +106,9 @@ def getschedule(time, user, timecounter):
         else:
             schedule = {'Title': 'Sleep', 'Description': 'Just for sleeping', 'Importance': 1, 'Difficulty': 1,
                         'Comment': 1, 'Lasting_period': gap, 'feedback': 0}
+    else:
+        schedule = {'Title': rows[0]['Title'], 'Description': rows[0]['Description'], 'Importance': rows[0]['Importance'], 'Difficulty': rows[0]['Difficulty'],
+                    'Comment': rows[0]['Comment'], 'Lasting_period': rows[0]['Lasting_period'], 'feedback': rows[0]['feedback']}
     return schedule
 
 if __name__ == '__main__':
