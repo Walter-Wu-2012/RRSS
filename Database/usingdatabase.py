@@ -184,6 +184,7 @@ def add_info(table_name,**kwargs):
     sql2 = sql2[:-1]
     sql3 = sql3[:-1]
     sql = sql1 + sql2 + ') VALUES(' + sql3 +')'
+    print(sql)
     with UsingMysql(log_time=True) as um:
             um.cursor.execute(sql)
 
