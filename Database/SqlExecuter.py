@@ -49,7 +49,7 @@ class UsingMysql(object):
 
         if self._log_time is True:
             diff = default_timer() - self._start
-            print('-- %s: %.6f s' % (self._log_label, diff))
+            # print('-- %s: %.6f s' % (self._log_label, diff))
 
     @property
     def cursor(self):

@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 import torch.nn as nn
-from torch.utils.data import dataset
+from torch.utils.data import dataset, DataLoader
 from Database.SqlExecuter import UsingMysql
 from datetime import datetime, date, timedelta
 
@@ -23,8 +23,6 @@ class MoodDataLoader(dataset.Dataset):
         starttime = time - timedelta(days=7)+timedelta(seconds=1810)
         endtime = time + timedelta(days=7)+timedelta(seconds=1810)
 
-        print(starttime)
-        print(endtime)
         # data = get_table(self.table, time1= starttime,time2= endtime, user_ID= self.user)
         with UsingMysql(log_time=True) as um:
             sql = "select * from "+self.table+" where User_ID=" + self.user + " and Time between  '" + str(starttime) + "'  and  '" + str(endtime) + "'"
@@ -35,7 +33,7 @@ class MoodDataLoader(dataset.Dataset):
         index = np.zeros([14, 48, 5])
 
         sentenceslist = []
-        print(len(data))
+
         for i in range(len(data)):
             sentenceslist.append(data[i]['Title'] + ' ' + data[i]['Description'])
             j = int(i / 48)
@@ -52,7 +50,7 @@ class MoodDataLoader(dataset.Dataset):
             index[j, k, 3] = float(data[i]['Energy'])
             index[j, k, 4] = float(data[i]['Focus'])
 
-        print(schedule.shape)
+        # print(schedule.shape)
 
         schedule = torch.from_numpy(schedule)
         index = torch.from_numpy(index)
@@ -212,6 +210,16 @@ if __name__ == '__main__':
     #     print(timelist)
 
     md = MoodDataLoader('mood_index_interpolation', '6')
-    print(md.__len__())
-    schedule, schedule2, index, index2 = md.__getitem__(0)
-    print(schedule.shape)
+    # print(md.__len__())
+    # schedule, schedule2, index, index2 = md.__getitem__(0)
+    # print(schedule[0,0,:5])
+
+    dataloader = DataLoader(md, batch_size=4, shuffle=True)
+
+    for oldschedule, newschedule, oldindex, newindex in dataloader:
+        print(oldschedule.shape)
+        print(newschedule.shape)
+        print(oldindex.shape)
+        print(newindex.shape)
+
+
