@@ -71,4 +71,6 @@ def get_weather():
 if __name__ == '__main__':
     w = get_weather()
     print(w.detailed_status)
+    print(w.humidity)
+    print(w.temperature("celsius"))
 

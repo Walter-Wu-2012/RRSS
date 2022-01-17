@@ -17,3 +17,5 @@ from Database.usingdatabase import add_info, get_table, show_table, del_info
 # del_info('mood_index_interpolation',user_ID = 6)
 
 show_table("mood_index_interpolation2")
+schedule = get_table("mood_index",time1 = "2022-01-11 00:00:00",time2 = "2022-01-13 00:00:00", user_ID = 6)
+print(schedule)

@@ -2,145 +2,90 @@ from Database.SqlExecuter import UsingMysql
 from prettytable import PrettyTable
 class user:
     "using user_ID or username to find data"
-    def __init__(self, user_ID=None, username=None):
-        with UsingMysql(log_time=True) as um:
-            if user_ID:
-                sql = "select * from User WHERE user_ID = " + str(user_ID)
-                um.cursor.execute(sql)
-                data = um.cursor.fetchone()
-                print(data)
-                self.user_ID = user_ID
-                self.username = data["username"]
-                self.Pwd = data["Pwd"]
-                self.Birthday = data["Birthday"]
-                self.Perference = data["Perference"]
-                self.Gender = data["Gender"]
-            if username:
-                sql = "select * from User WHERE username = '" + str(username) +"'"
-                um.cursor.execute(sql)
-                data = um.cursor.fetchone()
-                self.user_ID = data["user_ID"]
-                self.username = data["username"]
-                self.Pwd = data["Pwd"]
-                self.Birthday = data["Birthday"]
-                self.Perference = data["Perference"]
-                self.Gender = data["Gender"]
+    def __init__(self, user_ID, username, Pwd, Birthday, Perference, Gender ):
+        self.user_ID = user_ID
+        self.username = username
+        self.Pwd = Pwd
+        self.Birthday = Birthday
+        self.Perference = Perference
+        self.Gender = Gender
+    def __str__(self):
+        return "user_ID: {}, username: {},Pwd: {},Birthday: {},Perference: {},Gender: {}".format(self.user_ID, self.username, self.Pwd, self.Birthday, self.Perference, self.Gender)
+
+
+
 
 class User_info:
     "using time and user_ID to find data"
-    def __init__(self, time=None, user_ID=None):
-        with UsingMysql(log_time=True) as um:
-            sql = "select * from User_info WHERE User_ID = " + str(user_ID) + " AND Time = '" + str(time) +"'"
-            um.cursor.execute(sql)
-            data = um.cursor.fetchone()
-            self.ID = data["ID"]
-            self.Location = data["Location"]
-            self.Weather = data["Weather"]
-            self.Temperature = data["Temperature"]
-            self.Humidity = data["Humidity"]
-            self.Blood_pressure = data["Blood_pressure"]
-            self.Time = data["Time"]
-            self.User_ID = data["User_ID"]
+    def __init__(self, ID, Location, Weather, Temperature,Humidity,Blood_pressure,Time,User_ID):
+        self.ID = ID
+        self.Location = Location
+        self.Weather = Weather
+        self.Temperature = Temperature
+        self.Humidity = Humidity
+        self.Blood_pressure = Blood_pressure
+        self.Time = Time
+        self.User_ID = User_ID
 
+    def __str__(self):
+        return "ID: {}, Location: {},Weather: {},Temperature: {},Humidity: {},Blood_pressure: {},Time: {},User_ID: {}".format(self.ID, self.Location, self.Weather, self.Temperature, self.Humidity, self.Blood_pressure,self.Time,self.User_ID)
 
 class Schedule:
     "using title to find data"
-    def __init__(self, time=None, user_ID=None):
-        with UsingMysql(log_time=True) as um:
-            sql = "select * from Schedule WHERE User_ID = " + str(user_ID) + " AND Time = '" + str(time) +"'"
-            um.cursor.execute(sql)
-            data = um.cursor.fetchone()
-            self.ID = data["ID"]
-            self.Time = data["Time"]
-            self.Title = data["Title"]
-            self.Description = data["Description"]
-            self.Importance = data["Importance"]
-            self.Difficulty = data["Difficulty"]
-            self.Comment = data["Comment"]
-            self.Week = data["Week"]
-            self.Hour = data["Hour"]
-            self.lasting_period = data["lasting_period"]
-            self.User_ID = data["User_ID"]
+    def __init__(self, ID, Time, Title, Description, Importance, Difficulty, Comment, Time2, User_ID, feedback):
+        self.ID = ID
+        self.Time = Time
+        self.Title = Title
+        self.Description = Description
+        self.Importance = Importance
+        self.Difficulty = Difficulty
+        self.Comment = Comment
+        self.Time2 = Time2
+        self.User_ID = User_ID
+        self.feedback = feedback
+
+    def __str__(self):
+        return "ID: {}, Time: {},Title: {},Description: {},Importance: {},Difficulty: {},Comment: {},Time2: {},User_ID: {},feedback: {}".format(
+            self.ID, self.Time, self.Title, self.Description, self.Importance, self.Difficulty, self.Comment, self.Time2,
+            self.User_ID, self.feedback)
+
 
 class Mood_index:
     "using time and user_ID to find data"
-    def __init__(self, time=None, user_ID=None):
-        with UsingMysql(log_time=True) as um:
-            sql = "select * from Mood_index WHERE User_ID = " + str(user_ID) + " AND Time = '" + str(time) +"'"
-            um.cursor.execute(sql)
-            data = um.cursor.fetchone()
-            self.ID = data["ID"]
-            self.Time = data["Time"]
-            self.Stress = data["Stress"]
-            self.Chaotic = data["Chaotic"]
-            self.Happiness = data["Happiness"]
-            self.Energy = data["Energy"]
-            self.Focus = data["Focus"]
-            self.User_ID = data["User_ID"]
-            self.Title = data["Title"]
-            self.Description = data["Description"]
-            self.Importance = data["Importance"]
-            self.Difficulty = data["Difficulty"]
-            self.Comment = data["Comment"]
-            self.Lasting_period = data["Lasting_period"]
-            self.feedback = data["feedback"]
+    def __init__(self, ID,Time,Stress,Chaotic,Happiness,Energy,Focus,User_ID,Importance,Difficulty,Comment,Lasting_period):
+        self.ID = ID
+        self.Time = Time
+        self.Stress = Stress
+        self.Chaotic = Chaotic
+        self.Happiness = Happiness
+        self.Energy = Energy
+        self.Focus = Focus
+        self.User_ID = User_ID
+        self.Importance = Importance
+        self.Difficulty = Difficulty
+        self.Comment = Comment
+        self.Lasting_period = Lasting_period
+    def __str__(self):
+        return "ID: {}, Time: {},Stress: {},Chaotic: {},Happiness: {},Energy: {},Focus: {},User_ID: {},Importance: {},Difficulty: {},Comment: {},Lasting_period: {}".format(
+            self.ID, self.Time, self.Stress, self.Chaotic, self.Happiness, self.Energy, self.Focus, self.User_ID,
+            self.Importance,self.Difficulty,self.Comment,self.Lasting_period)
 
 
-
-
-class Mood_index_test:
-    "using time and user_ID to find data"
-    def __init__(self, time=None, user_ID=None):
-        with UsingMysql(log_time=True) as um:
-            sql = "select * from Mood_index WHERE User_ID = " + str(user_ID) + " AND Time = '" + str(time) +"'"
-            um.cursor.execute(sql)
-            data = um.cursor.fetchone()
-            self.ID = data["ID"]
-            self.Time = data["Time"]
-            self.Stress = data["Stress"]
-            self.Chaotic = data["Chaotic"]
-            self.Happiness = data["Happiness"]
-            self.Energy = data["Energy"]
-            self.Focus = data["Focus"]
-            self.User_ID = data["User_ID"]
-            self.Title = data["Title"]
-            self.Description = data["Description"]
-            self.Importance = data["Importance"]
-            self.Difficulty = data["Difficulty"]
-            self.Comment = data["Comment"]
-            self.Lasting_period = data["Lasting_period"]
-            self.feedback = data["feedback"]
 
 class Prediction:
     "using time and user_ID to find data"
-    def __init__(self, time=None, user_ID=None):
-        with UsingMysql(log_time=True) as um:
-            sql = "select * from Prediction WHERE User_ID = " + str(user_ID) + " AND Time = '" + str(time) +"'"
-            um.cursor.execute(sql)
-            data = um.cursor.fetchone()
-            self.ID = data["ID"]
-            self.Time = data["Time"]
-            self.Stress = data["Stress"]
-            self.Chaotic = data["Chaotic"]
-            self.Happiness = data["Happiness"]
-            self.Energy = data["Energy"]
-            self.Focus = data["Focus"]
-            self.User_ID = data["User_ID"]
+    def __init__(self, ID, Time, Stress, Chaotic, Happiness, Energy, Focus, User_ID):
+        self.ID = ID
+        self.Time = Time
+        self.Stress = Stress
+        self.Chaotic = Chaotic
+        self.Happiness = Happiness
+        self.Energy = Energy
+        self.Focus = Focus
+        self.User_ID = User_ID
+    def __str__(self):
+        return "ID: {}, Time: {},Stress: {},Chaotic: {},Happiness: {},Energy: {},Focus: {},User_ID: {}".format(self.ID, self.Time, self.Stress, self.Chaotic, self.Happiness, self.Energy, self.Focus, self.User_ID)
 
-# class Recommend_range:
-#     "using time and user_ID to find data"
-#     def __init__(self, type=None, user_ID=None):
-#         with UsingMysql(log_time=True) as um:
-#             sql = "select * from Recommend_range WHERE User_ID = " + str(user_ID) + " AND Type = '" + str(type) +"'"
-#             um.cursor.execute(sql)
-#             data = um.cursor.fetchone()
-#             self.ID = data["ID"]
-#             self.Type = data["Type"]
-#             self.Desc1 = data["Desc1"]
-#             self.Duration = data["Duration"]
-#             self.Commend = data["Commend"]
-#             self.Time = data["Time"]
-#             self.User_ID = data["User_ID"]
 
 class Recommend_range:
     "using time and user_ID to find data"
@@ -223,32 +168,42 @@ def get_table(table_name,**kwargs):
 
     else:
         with UsingMysql(log_time=True) as um:
-            sql = "select Time FROM " + str(table_name) +" where Time between  '" + str(kwargs["time1"]) + "'  and  '" + str(kwargs["time2"]) + "'"
+            sql = "select * FROM " + str(table_name) +" where Time between  '" + str(kwargs["time1"]) + "'  and  '" + str(kwargs["time2"]) + "'"
             # sql = "select Time FROM schedule where Time between  '2021-12-21 00:00:00'  and '2021-12-30 00:00:00'"
             um.cursor.execute(sql)
-            data = um.cursor.fetchone()
-            if table_name == "schedule":
-                while (data):
-                    schedule1 = Schedule(data["Time"],user_ID = int(kwargs["user_ID"]))
-                    content.append(schedule1)
-                    data = um.cursor.fetchone()
-            elif table_name == "mood_index":
-                while (data):
-                    mood1 = Mood_index(data["Time"],user_ID = int(kwargs["user_ID"]))
-                    content.append(mood1)
-                    data = um.cursor.fetchone()
-            elif table_name == "prediction":
-                while (data):
-                    prediction1 = Prediction(data["Time"],user_ID = int(kwargs["user_ID"]))
-                    content.append(prediction1)
-                    data = um.cursor.fetchone()
-            elif table_name == "user_info":
-                while (data):
-                    user1 = User_info(data["Time"],user_ID = int(kwargs["user_ID"]))
-                    content.append(user1)
-                    data = um.cursor.fetchone()
-
-            elif table_name == "history_log":
+            rows = um.cursor.fetchall()
+            if table_name == "Schedule":
+                for data in rows:
+                    schedule = Schedule(data["ID"], data["Time"], data["Title"], data["Description"],
+                                                 data["Importance"], data["Difficulty"],data["Comment"],data["Time2"],data["User_ID"],data["feedback"])
+                    content.append(schedule)
+                    # ID, Time, Title, Description, Importance, Difficulty, Comment, Week, Hour, Time2, User_ID
+            elif table_name == "Mood_index":
+                for data in rows:
+                    mood = Mood_index(data["ID"], data["Time"], data["Stress"], data["Chaotic"],
+                                                 data["Happiness"], data["Energy"],data["Focus"],data["User_ID"],data["Importance"],data["Difficulty"],data["Comment"],data["Lasting_period"])
+                    content.append(mood)
+            elif table_name == "Mood_index_interpolation":
+                for data in rows:
+                    mood = Mood_index(data["ID"], data["Time"], data["Stress"], data["Chaotic"],
+                                                 data["Happiness"], data["Energy"],data["Focus"],data["User_ID"],data["Importance"],data["Difficulty"],data["Comment"],data["Lasting_period"])
+                    content.append(mood)
+            elif table_name == "Mood_index_interpolation2":
+                for data in rows:
+                    mood = Mood_index(data["ID"], data["Time"], data["Stress"], data["Chaotic"],
+                                                 data["Happiness"], data["Energy"],data["Focus"],data["User_ID"],data["Importance"],data["Difficulty"],data["Comment"],data["Lasting_period"])
+                    content.append(mood)
+            elif table_name == "Prediction":
+                for data in rows:
+                    prediction = Prediction(data["ID"], data["Time"], data["Stress"], data["Chaotic"],
+                                        data["Happiness"], data["Energy"], data["Focus"], data["User_ID"])
+                    content.append(prediction)
+            elif table_name == "User_info":
+                for data in rows:
+                    user = User_info(data["ID"], data["Location"], data["Weather"], data["Temperature"],
+                                            data["Humidity"], data["Blood_pressure"], data["Time"], data["User_ID"])
+                    content.append(user)
+            elif table_name == "History_log":
                 while (data):
                     history1 = Schedule(data["Time"],user_ID = int(kwargs["user_ID"]))
                     content.append(history1)
@@ -275,11 +230,12 @@ if __name__ == '__main__':
     # for sch in schedule:
     #     print(sch.Time)
     # add_info("user_info",Blood_pressure=" ",Heartrate = " ", Humidity = " ",Location ="  ", Temperature = " ", Time = "2021-12-30 00:00:00", User_ID=1 ,Weather= " ")
-    add_info("Recommend_range", Type = 1,Desc1 = '1',Duration = 1,Commend = 1,User_ID = 6)
+    # add_info("Recommend_range", Type = 1,Desc1 = '1',Duration = 1,Commend = 1,User_ID = 6)
     # del_info('Recommend_range', user_ID=6)
-    show_table("Recommend_range")
-
-    t = get_table("Recommend_range", user_ID = 6, type='1')
+    # del_info("User_info",Time = "2021-12-21 00:00:00", Stress =1, Chaotic =1, Happiness=1, Energy=1, Focus=1, User_ID=6)
+    show_table("Mood_index_interpolation")
+    #
+    t = get_table("Mood_index_interpolation2",time1 = "2021-12-21 00:00:00",time2 = "2022-01-13 00:00:00", user_ID = 6)
     print(len(t))
     for i in range(len(t)):
 
