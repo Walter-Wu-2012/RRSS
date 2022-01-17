@@ -57,15 +57,15 @@ def InterpolationData(user):
 
     xtrue = [-1 for i in range(len(newx))]
 
-    print(x)
+    # print(x)
 
     for i in range(len(x)):
         xtrue[x[i]]=i
-    print(xtrue)
+    # print(xtrue)
 
     rows = rows[::-1]
     lastsavetime = getLastSaveTime(user)
-    print(lastsavetime)
+    # print(lastsavetime)
     timecounter = copy.deepcopy(starttime)
     for i in range(len(x)):
         time = starttime+td*i
@@ -74,7 +74,7 @@ def InterpolationData(user):
             if xtrue[i] == -1:
                 schedule = getschedule(time, user, timecounter)
 
-                add_info("mood_index_interpolation", User_ID=user, Time=str(time), Title=schedule['Title'],
+                add_info("mood_index_interpolation2", User_ID=user, Time=str(time), Title=schedule['Title'],
                          Description=schedule['Description'], Importance=schedule['Importance'], Difficulty=schedule['Difficulty'],
                          Comment=schedule['Comment'], Lasting_period=schedule['Lasting_period'], feedback=schedule['feedback'],
                          Stress=newy[0,i], Chaotic=newy[1,i], Happiness=newy[2,i], Energy=newy[3,i],
@@ -83,7 +83,7 @@ def InterpolationData(user):
             else:
                 timecounter = copy.deepcopy(time)
                 row = rows[xtrue[i]]
-                add_info("mood_index_interpolation", User_ID=row['User_ID'], Time=str(row['Time']), Title=row['Title'],
+                add_info("mood_index_interpolation2", User_ID=row['User_ID'], Time=str(row['Time']), Title=row['Title'],
                          Description=row['Description'], Importance=row['Importance'], Difficulty=row['Difficulty'],
                          Comment=row['Comment'], Lasting_period=row['Lasting_period'], feedback=row['feedback'],
                          Stress=row['Stress'], Chaotic=row['Chaotic'], Happiness=row['Happiness'], Energy=row['Energy'],
@@ -92,7 +92,7 @@ def InterpolationData(user):
 
 def getLastSaveTime(user):
     with UsingMysql(log_time=True) as um:
-        sql = "select Time from mood_index_interpolation where User_ID=" + user + " order by Time DESC limit 1"
+        sql = "select Time from mood_index_interpolation2 where User_ID=" + user + " order by Time DESC limit 1"
         um.cursor.execute(sql)
         endtime = um.cursor.fetchone()
         if endtime==None:
@@ -118,13 +118,13 @@ def getschedule(time, user, timecounter):
             schedule={'Title':'Free time', 'Description':'nothing to do', 'Importance':1, 'Difficulty':1, 'Comment':6, 'Lasting_period':gap, 'feedback':0}
         else:
             if timecounter.hour < 23 and timecounter.hour > 8:
-                print(timecounter)
+                # print(timecounter)
                 timecounter = time.replace(hour=23)-timedelta(days=1)
                 timecounter = timecounter.replace(minute=0)
 
-                print(time)
-                print(timecounter)
-                print('---------')
+                # print(time)
+                # print(timecounter)
+                # print('---------')
             gap = (time - timecounter).total_seconds() / 3600 - 0.5
             schedule = {'Title': 'Sleep', 'Description': 'Just for sleeping', 'Importance': 1, 'Difficulty': 1,
                         'Comment': 1, 'Lasting_period': gap, 'feedback': 0}

@@ -16,4 +16,4 @@ from Database.usingdatabase import add_info, get_table, show_table, del_info
 
 # del_info('mood_index_interpolation',user_ID = 6)
 
-show_table("mood_index_interpolation")
+show_table("mood_index_interpolation2")
