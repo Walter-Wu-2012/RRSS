@@ -14,4 +14,4 @@ def alignImage(imagepath):
 
 if __name__ == '__main__':
 
-    alignImage("input1.jpg")
+    alignImage("input2.jpg")
