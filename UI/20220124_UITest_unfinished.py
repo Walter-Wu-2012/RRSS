@@ -50,6 +50,7 @@ class tkinterApp(tk.Tk):
         # add_info("Recommend_range", Type = 1,Desc1 = '1',Duration = 1,Commend = 1,User_ID = 6)
         show_table("user_info")
         show_table("mood_index")
+        show_table("Recommend_range")
 
         ## add history
         # add_info("schedule",User_ID = 6, ID = 1, Time = "2021-12-22 17:30:00", Title = "study")
@@ -63,7 +64,7 @@ class tkinterApp(tk.Tk):
   
         # initializing frames to an empty array
         self.frames = {} 
-  
+        
         # iterating through a tuple consisting of the different page layouts
 
         for F in (StartPage, ChillRecom, WorkRecom, Settings, ActivityAdviceRange, HistoryLogPage, ScanningBufferPage):
