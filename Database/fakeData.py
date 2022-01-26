@@ -49,5 +49,5 @@ def csv2db(filename):
 if __name__ == '__main__':
     # del_info('mood_index', user_ID=6)
     # csv2db('C:\\Users\\Administrator\\PycharmProjects\\RRSS\\MoodProcess\\MoodPrediction\\datasets\\lzg2.csv')
-    show_table("mood_index_interpolation")
-    del_info('mood_index_interpolation', user_ID=6)
+    show_table("mood_index_interpolation2")
+    # del_info('mood_index_interpolation', user_ID=6)

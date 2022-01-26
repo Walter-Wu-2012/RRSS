@@ -128,7 +128,9 @@ class MoodDataLoader(dataset.Dataset):
             j = 0
             for w in sentence_words:
                 # Set the (i,j)th entry of X_indices to the index of the correct word.
-                X_indices[i, j] = word_to_index[w]
+                w = w.split('.')[0].split(',')[0]
+                if j<max_len:
+                    X_indices[i, j] = word_to_index[w]
                 # Increment j to j + 1
                 j = j + 1
 
@@ -153,6 +155,7 @@ class MoodDataLoader(dataset.Dataset):
     def transSentence(self, sentences):
         word_to_index, index_to_word, word_to_vec_map = self.read_glove_vecs('datasets/glove.6B.50d.txt')
         maxLen = len(max(sentences, key=len).split())
+        # print(sentences)
         X_indices = self.sentences_to_indices(sentences, word_to_index, maxLen)
 
         embedding, vocab_size, embedding_dim = self.pretrained_embedding_layer(word_to_vec_map, word_to_index,

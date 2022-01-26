@@ -9,20 +9,21 @@ import torch.optim as optim
 
 if __name__ == '__main__':
 
-    epoch = 5
-    numOneEpoch = 3
-    batchsize = 4
+    epoch = 10
+    numOneEpoch = 1
+    batchsize = 16
     model = MoodPredictionNet()
+    model.loadModel()
     criterion = nn.MSELoss()
     optimizer = optim.Adam(model.parameters(), lr=0.002)
-    running_loss = 0
+
     model.train()
 
     md = MoodDataLoader('mood_index_interpolation', '6')
-    dataloader = DataLoader(md, batch_size=4, shuffle=True)
+    dataloader = DataLoader(md, batch_size=16, shuffle=True)
 
     for i in range(epoch):
-
+        running_loss = 0
         for oldschedule, newschedule, oldindex, newindex in dataloader:
             oldschedule = oldschedule.permute(0, 3, 2, 1).to(torch.float32)
             newschedule = newschedule.permute(0, 3, 2, 1).to(torch.float32)
@@ -47,7 +48,7 @@ if __name__ == '__main__':
 
             # 6) log our progress
             running_loss += loss.item()
-            print(loss.item())
+            # print(loss.item())
         model.saveModel()
         print('epoch:{} loss:{}'.format(i, running_loss / (numOneEpoch*len(dataloader))))
 
