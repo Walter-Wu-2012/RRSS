@@ -1,4 +1,7 @@
 from Database.SqlExecuter import UsingMysql
+from Database.usingdatabase import get_table
+
+
 def greet_me(**kwargs):
     for key, value in kwargs.items():
         print("{0} == {1}".format(key, value))
@@ -46,3 +49,10 @@ greet_me(name="yasoob")
 #     with UsingMysql(log_time=True) as um:
 #         um.cursor.execute("DELETE FROM users WHERE name=%(param1)s;", {'param1': "aaa"})
 #         print("Deleted",  um.cursor.rowcount, "row(s) of data.")
+
+
+### get prediction data
+t = get_table("prediction",time1 = "2022-02-04 23:00:00",time2 = "2022-02-05 23:00:00", user_ID = 6)
+print(len(t))
+for i in range(len(t)):
+    print(t[i])

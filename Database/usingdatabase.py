@@ -170,6 +170,7 @@ def get_table(table_name,**kwargs):
         with UsingMysql(log_time=True) as um:
             sql = "select * FROM " + str(table_name) +" where Time between  '" + str(kwargs["time1"]) + "'  and  '" + str(kwargs["time2"]) + "'"
             # sql = "select Time FROM schedule where Time between  '2021-12-21 00:00:00'  and '2021-12-30 00:00:00'"
+            print(sql)
             um.cursor.execute(sql)
             rows = um.cursor.fetchall()
             if table_name == "Schedule":
@@ -193,7 +194,8 @@ def get_table(table_name,**kwargs):
                     mood = Mood_index(data["ID"], data["Time"], data["Stress"], data["Chaotic"],
                                                  data["Happiness"], data["Energy"],data["Focus"],data["User_ID"],data["Importance"],data["Difficulty"],data["Comment"],data["Lasting_period"])
                     content.append(mood)
-            elif table_name == "Prediction":
+            elif table_name == "prediction":
+                print(len(rows))
                 for data in rows:
                     prediction = Prediction(data["ID"], data["Time"], data["Stress"], data["Chaotic"],
                                         data["Happiness"], data["Energy"], data["Focus"], data["User_ID"])
