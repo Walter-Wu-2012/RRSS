@@ -53,6 +53,13 @@ def get_location(ip):
     print(response)
     return response.city.names["en"]
 
+def get_location_info(ip):
+    reader = geoip2.database.Reader('./GeoLite2-City.mmdb')
+    response = reader.city(ip)
+    # print(response)
+    # print("asdf", response.location)
+    return response.location.latitude, response.location.longitude
+
 
 def get_IP():
     request = requests.get('http://ifconfig.me/ip', timeout=1).text.strip()
@@ -73,11 +80,12 @@ def get_weather():
 
 
 if __name__ == '__main__':
-    print(get_location(ip=get_IP()))
-    # print(get_location(ip='126.158.252.244'))
-    print(get_IP())
-    # w = get_weather()
-    # print(w.detailed_status)
-    # print(w.humidity)
-    # print(w.temperature("celsius"))
-    #
+    print(get_location_info(ip=get_IP()))
+    # print(get_location(ip=get_IP()))
+    # # print(get_location(ip='126.158.252.244'))
+    # print(get_IP())
+    # # w = get_weather()
+    # # print(w.detailed_status)
+    # # print(w.humidity)
+    # # print(w.temperature("celsius"))
+    # #
