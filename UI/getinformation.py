@@ -50,7 +50,7 @@ def get_information():
 def get_location(ip):
     reader = geoip2.database.Reader('./GeoLite2-City.mmdb')
     response = reader.city(ip)
-    print(response)
+    # print(response)
     return response.city.names["en"]
 
 def get_location_info(ip):
@@ -72,20 +72,29 @@ def get_weather():
     location = str(get_location(get_IP()))
     owm = pyowm.OWM('ce26aec49e7330404ec4f1cb536210be')
     mgr = owm.weather_manager()
-    print(location)
+    # print(location)
     observation = mgr.weather_at_place(location)
+    # print(observation)
     w = observation.weather
     return w
 
+def get_weather_info():
+    w = get_weather()
+    # print(w.humidity)
+    # print(w.weather_code)
+    # print(w.temperature("celsius")['temp'])
+    # print(w)
+    # print(dir(w))
+    # print(w.detailed_status)
+
+    return w.weather_code, w.humidity, w.temperature("celsius")['temp']
 
 
 if __name__ == '__main__':
-    print(get_location_info(ip=get_IP()))
+
     # print(get_location(ip=get_IP()))
     # # print(get_location(ip='126.158.252.244'))
     # print(get_IP())
-    # # w = get_weather()
-    # # print(w.detailed_status)
-    # # print(w.humidity)
-    # # print(w.temperature("celsius"))
-    # #
+    print(get_location_info(ip=get_IP()))
+    print(get_weather_info())
+
