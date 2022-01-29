@@ -19,7 +19,8 @@ if __name__ == '__main__':
 
     model.eval()
     with torch.no_grad():
-        schedule, futureschedule, index, endtime = getTestData('mood_index_interpolation', '6')
+        time = datetime.strptime("2022-1-23 12:00:00", "%Y-%m-%d %H:%M:%S")
+        schedule, futureschedule, index, endtime = getTestData('mood_index_interpolation', '6', time)
 
         schedule = schedule.unsqueeze(dim=0).permute(0, 3, 2, 1).to(torch.float32)
         futureschedule = futureschedule.unsqueeze(dim=0).permute(0, 3, 2, 1).to(torch.float32)

@@ -18,7 +18,7 @@ def interpolation(x, y):
     newx = np.array(newx)
     newy = np.zeros([5, newx.shape[0]])
     for i in range(5):
-        f = interpolate.interp1d(x, y[:, i], kind='quadratic')
+        f = interpolate.interp1d(x, y[:, i], kind='cubic')
         newy[i, ...] = f(newx)
 
     return newx, newy

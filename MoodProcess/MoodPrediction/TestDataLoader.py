@@ -179,9 +179,9 @@ def getschedule(time, user):
     return schedule
 
 
-def getTestData(table, user):
-    time = getLastTime(table, user)
-    starttime = time - timedelta(days=7) + timedelta(seconds=3610)
+def getTestData(table, user, time):
+    # time = getLastTime(table, user)
+    starttime = time - timedelta(days=7) + timedelta(seconds=1710)
     endtime = time
 
     # data = get_table(self.table, time1= starttime,time2= endtime, user_ID= self.user)
@@ -193,7 +193,7 @@ def getTestData(table, user):
         data = um.cursor.fetchall()
     schedule = np.zeros([7, 48, 5])
     index = np.zeros([7, 48, 5])
-    # print(len(data)/48)
+    print(len(data))
     #
     sentenceslist = []
 
@@ -220,6 +220,7 @@ def getTestData(table, user):
 
     # print(len(sentences))
     sentenceslist = transSentence(np.array(sentenceslist)).cpu()
+    print(sentenceslist.shape)
     sentences = torch.zeros([7, 48, sentenceslist.shape[1]])
     for i in range(7):
         sentences[i, :, :] = sentenceslist[i * 48:(i + 1) * 48, :]
