@@ -70,9 +70,11 @@ def get_weather(ip):
     # print(get_location(get_IP()))
     # location = str(get_location(get_IP()))[:-3]
     location = str(get_location(ip))
+    print(location)
     owm = pyowm.OWM('ce26aec49e7330404ec4f1cb536210be')
     mgr = owm.weather_manager()
     # print(location)
+    location = location.split('-')[0]
     observation = mgr.weather_at_place(location)
     # print(observation)
     w = observation.weather

@@ -51,7 +51,7 @@ class tkinterApp(tk.Tk):
 
         # getinfo
         location = get_location(ip=get_IP())
-        w = get_weather()
+        w = get_weather(ip=get_IP())
         print(w.detailed_status)
         print(w.humidity)
         print(w.temperature("celsius"))
